@@ -432,10 +432,23 @@ do
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextTransparency = 1
 				}),
-				utility:Create("UIListLayout", {
-					SortOrder = Enum.SortOrder.LayoutOrder,
-					Padding = UDim.new(0, 4)
-				})
+				utility:Create("ScrollingFrame", {
+					Active = true,
+					BackgroundTransparency = 1,
+					BorderSizePixel = 0,
+					Position = UDim2.new(0, 0, 0, 25),
+					Size = UDim2.new(1, 0, 1, -25),
+					CanvasSize = UDim2.new(0, 0, 0, 466),
+					ScrollBarThickness = 3,
+					ScrollBarImageColor3 = themes.TextColor,
+					ZIndex=5,
+				},
+				{
+					utility:Create("UIListLayout", {
+						SortOrder = Enum.SortOrder.LayoutOrder,
+						Padding = UDim.new(0, 4)
+					})
+				}),
 			})
 		})
 
@@ -692,7 +705,7 @@ do
 	function section:addButton(title, callback)
 		local button = utility:Create("ImageButton", {
 			Name = "Button",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -752,7 +765,7 @@ do
 	function section:addToggle(title, default, callback)
 		local toggle = utility:Create("ImageButton", {
 			Name = "Toggle",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -825,7 +838,7 @@ do
 	function section:addTextbox(title, default, callback)
 		local textbox = utility:Create("ImageButton", {
 			Name = "Textbox",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -933,7 +946,7 @@ do
 	function section:addKeybind(title, default, callback, changedCallback)
 		local keybind = utility:Create("ImageButton", {
 			Name = "Keybind",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -1038,7 +1051,7 @@ do
 	function section:addColorPicker(title, default, callback)
 		local colorpicker = utility:Create("ImageButton", {
 			Name = "ColorPicker",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -1562,7 +1575,7 @@ do
 	function section:addSlider(title, default, min, max, callback)
 		local slider = utility:Create("ImageButton", {
 			Name = "Slider",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Position = UDim2.new(0.292817682, 0, 0.299145311, 0),
@@ -1713,7 +1726,7 @@ do
 	function section:addDropdown(title, list, callback)
 		local dropdown = utility:Create("Frame", {
 			Name = "Dropdown",
-			Parent = self.container,
+			Parent = self.container.ScrollingFrame,
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, 0, 0, 30),
 			ClipsDescendants = true
@@ -1948,17 +1961,21 @@ do
 
 	function section:Resize(smooth)
 
-		--if self.page.library.focusedPage ~= self.page then
-		--	return
-		--end
-
+		if self.page.library.focusedPage ~= self.page then
+			return
+		end
+		
+		local size = 0;
+		
 		--local padding = 4
 		--local size = (4 * padding) + self.container.Title.AbsoluteSize.Y -- offset
 
-		--for i, module in pairs(self.modules) do
-		--	size = size + module.AbsoluteSize.Y + padding
-		--end
-
+		for i, module in pairs(self.modules) do
+			size = size + module.AbsoluteSize.Y + 4
+		end
+		
+		self.container.ScrollingFrame.CanvasSize = UDim2.new(0,0,0,size);
+		
 		--if smooth then
 		--	utility:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, size)}, 0.05)
 		--else
