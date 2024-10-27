@@ -1964,8 +1964,6 @@ do
 			toggle.Title.Text = title
 		end
 		
-		print(value)
-		
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -9),
 			Position = position[value] + UDim2.new(0, 0, 0, 2.5)
