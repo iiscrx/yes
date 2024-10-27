@@ -354,7 +354,7 @@ do
 		}, {
 			utility:Create("UIGridLayout", {
 				CellPadding = UDim2.new(0, 5, 0 ,5),
-				CellSize = UDim2.new(0.48, 0, 0.5, 0),
+				CellSize = UDim2.new(0.48, 0, 0.3, 0),
 				FillDirection = "Horizontal",
 				FillDirectionMaxCells = 2,
 				HorizontalAlignment = "Center"
