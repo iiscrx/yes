@@ -214,7 +214,7 @@ do
 	function library.new(title : string)
 		local container = utility:Create("ScreenGui", {
 			Name = title or "Soranex Lib",
-			Parent = game.Players.LocalPlayer.PlayerGui;
+			Parent = game.CoreGui;
 		}, {
 			utility:Create("Frame", {
 				Name = "Main",
