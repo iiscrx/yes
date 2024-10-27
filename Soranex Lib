@@ -231,7 +231,9 @@ do
 					ZIndex = 0,
 					Image = "rbxassetid://5028857084",
 					ImageColor3 = themes.Glow,
-					ScaleType = Enum.ScaleType.Stretch
+					ScaleType = Enum.ScaleType.Stretch,
+					Visible = false,
+					Active = false,
 				}),
 				utility:Create("TextButton", {
 					Name = "ResizeWindow",
@@ -320,11 +322,6 @@ do
 				end
 				utility:Wait()
 			end
-		end)
-		
-		container.Main.Page.InputEnded:Connect(function()
-			draggingResize = false;
-			
 		end)
 		
 		container.Main.ResizeWindow.MouseButton1Up:Connect(function()
