@@ -351,14 +351,6 @@ do
 			ScrollBarThickness = 3,
 			ScrollBarImageColor3 = themes.DarkContrast,
 			Visible = false
-		}, {
-			utility:Create("UIGridLayout", {
-				CellPadding = UDim2.new(0, 5, 0 ,5),
-				CellSize = UDim2.new(0.48, 0, 0.3, 0),
-				FillDirection = "Horizontal",
-				FillDirectionMaxCells = 2,
-				HorizontalAlignment = "Center"
-			})
 		})
 
 		return setmetatable({
@@ -541,7 +533,7 @@ do
 				Position = UDim2.new(0, 10, 0, 8),
 				Size = UDim2.new(1, -40, 0, 16),
 				ZIndex = 4,
-				Font = Enum.Font.GothamSemibold,
+				Font = Enum.Font.SourceSansSemibold,
 				TextColor3 = themes.TextColor,
 				TextSize = 14.000,
 				TextXAlignment = Enum.TextXAlignment.Left
@@ -834,7 +826,7 @@ do
 					Position = UDim2.new(0, 5, 0, 0),
 					Size = UDim2.new(1, -10, 1, 0),
 					ZIndex = 3,
-					Font = Enum.Font.GothamSemibold,
+					Font = Enum.Font.SourceSansSemibold,
 					Text = default or "",
 					TextColor3 = themes.TextColor,
 					TextSize = 11
@@ -941,7 +933,7 @@ do
 					ClipsDescendants = true,
 					Size = UDim2.new(1, 0, 1, 0),
 					ZIndex = 3,
-					Font = Enum.Font.GothamSemibold,
+					Font = Enum.Font.SourceSansSemibold,
 					Text = default and default.Name or "None",
 					TextColor3 = themes.TextColor,
 					TextSize = 11
@@ -1074,7 +1066,7 @@ do
 				Position = UDim2.new(0, 10, 0, 8),
 				Size = UDim2.new(1, -40, 0, 16),
 				ZIndex = 2,
-				Font = Enum.Font.GothamSemibold,
+				Font = Enum.Font.SourceSansSemibold,
 				Text = title,
 				TextColor3 = themes.TextColor,
 				TextSize = 14,
@@ -1333,7 +1325,7 @@ do
 			tab = tab,
 			callback = function(prop, value)
 				rgb[prop] = value
-				hue, sat, brightness = Color3.toHSV(Color3.fromRGB(rgb.r, rgb.g, rgb.b))
+				hue, sat, brightness = Color3:ToHSV(Color3.fromRGB(rgb.r, rgb.g, rgb.b))
 			end
 		}
 
@@ -1560,7 +1552,7 @@ do
 				Position = UDim2.new(1, -30, 0, 6),
 				Size = UDim2.new(0, 20, 0, 16),
 				ZIndex = 3,
-				Font = Enum.Font.GothamSemibold,
+				Font = Enum.Font.SourceSansSemibold,
 				Text = default or min,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
@@ -1816,7 +1808,7 @@ do
 		if toggle then
 			-- page button
 			button.Title.TextTransparency = 0
-			button.Title.Font = Enum.Font.GothamSemibold
+			button.Title.Font = Enum.Font.SourceSansSemibold
 
 			if button:FindFirstChild("Icon") then
 				button.Icon.ImageTransparency = 0
@@ -1887,7 +1879,7 @@ do
 
 			-- sections
 			for i, section in pairs(page.sections) do	
-				utility:Tween(section.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
+				utility:Tween(section.container.Parent, {Size = UDim2.new(0.48, 0, 0, 240)}, 0.1)
 				utility:Tween(section.container.Title, {TextTransparency = 1}, 0.1)
 			end
 
@@ -1899,15 +1891,14 @@ do
 	end
 
 	function page:Resize(scroll)
-		local padding = 10
-		local size = 0
 
 		for i, section in pairs(self.sections) do
-			size = size + section.container.Parent.AbsoluteSize.Y + padding
+			section.container.Parent.Size = UDim2.new(0.48, 0, 0, 240)
+			section.container.Parent.Position = UDim2.new(((i+1)%2)/2, 4, 0, 244*(math.floor((i+1)/2)-1))
 		end
 
-		self.container.CanvasSize = UDim2.new(0, 0, 0, size)
-		self.container.ScrollBarImageTransparency = size > self.container.AbsoluteSize.Y
+		self.container.CanvasSize = UDim2.new(0, 0, 0, 244*((#self.sections+1)/2))
+		self.container.ScrollBarImageTransparency = 244*((#self.sections+1)/2) > self.container.AbsoluteSize.Y
 
 		if scroll then
 			utility:Tween(self.container, {CanvasPosition = Vector2.new(0, self.lastPosition or 0)}, 0.2)
@@ -1916,23 +1907,23 @@ do
 
 	function section:Resize(smooth)
 
-		if self.page.library.focusedPage ~= self.page then
-			return
-		end
+		--if self.page.library.focusedPage ~= self.page then
+		--	return
+		--end
 
-		local padding = 4
-		local size = (4 * padding) + self.container.Title.AbsoluteSize.Y -- offset
+		--local padding = 4
+		--local size = (4 * padding) + self.container.Title.AbsoluteSize.Y -- offset
 
-		for i, module in pairs(self.modules) do
-			size = size + module.AbsoluteSize.Y + padding
-		end
+		--for i, module in pairs(self.modules) do
+		--	size = size + module.AbsoluteSize.Y + padding
+		--end
 
-		if smooth then
-			utility:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, size)}, 0.05)
-		else
-			self.container.Parent.Size = UDim2.new(1, -10, 0, size)
-			self.page:Resize()
-		end
+		--if smooth then
+		--	utility:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, size)}, 0.05)
+		--else
+		--	self.container.Parent.Size = UDim2.new(1, -10, 0, size)
+		--	self.page:Resize()
+		--end
 	end
 
 	function section:getModule(info)
@@ -1972,11 +1963,23 @@ do
 		if title then
 			toggle.Title.Text = title
 		end
-
+		
+		print(value)
+		
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -9),
 			Position = position[value] + UDim2.new(0, 0, 0, 2.5)
 		}, 0.2)
+		
+		if value == "Out" then
+			utility:Tween(toggle.Button, {
+				ImageColor3 = Color3.new(0.235294, 1, 0)
+			}, 0.1)
+		else
+			utility:Tween(toggle.Button, {
+				ImageColor3 = themes.LightContrast;
+			}, 0.1)
+		end
 
 		wait(0.1)
 		utility:Tween(frame, {
@@ -2120,7 +2123,7 @@ do
 					Position = UDim2.new(0, 10, 0, 0),
 					Size = UDim2.new(1, -10, 1, 0),
 					ZIndex = 3,
-					Font = Enum.Font.Gotham,
+					Font = Enum.Font.SourceSansSemibold,
 					Text = value,
 					TextColor3 = themes.TextColor,
 					TextSize = 12,
