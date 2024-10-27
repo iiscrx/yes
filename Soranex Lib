@@ -214,7 +214,7 @@ do
 	function library.new(title : string)
 		local container = utility:Create("ScreenGui", {
 			Name = title or "Soranex Lib",
-			Parent = game.Players.LocalPlayer.PlayerGui;
+			Parent = game.CoreGui;
 		}, {
 			utility:Create("Frame", {
 				Name = "Main",
@@ -226,10 +226,10 @@ do
 				utility:Create("ImageLabel", {
 					Name = "Glow",
 					BackgroundTransparency = 1,
-					AnchorPoint = Vector2.new(0.05,0.05),
-					Size = UDim2.new(1.1, 0, 1.1, 0),
+					Position = UDim2.new(0, -33, 0, -25),
+					Size = UDim2.new(1.06, 30, 1.042, 30),
 					ZIndex = 0,
-					Image = "rbxassetid://96102362143175",
+					Image = "rbxassetid://5028857084",
 					ImageColor3 = themes.Glow,
 					ScaleType = Enum.ScaleType.Stretch
 				}),
@@ -307,7 +307,7 @@ do
 			draggingResize = true;
 			while draggingResize do
 
-				local x, y = mouse.X-3, mouse.Y-3
+				local x, y = mouse.X-1, mouse.Y-1
 				
 				local pos = container.Main.AbsolutePosition;
 				local size = container.Main.AbsoluteSize
@@ -322,10 +322,10 @@ do
 			end
 		end)
 		
-		--container.Main.InputEnded:Connect(function()
-		--	draggingResize = false;
+		container.Main.Page.InputEnded:Connect(function()
+			draggingResize = false;
 			
-		--end)
+		end)
 		
 		container.Main.ResizeWindow.MouseButton1Up:Connect(function()
 			draggingResize = false;
@@ -340,6 +340,7 @@ do
 	end
 
 	function page.new(library, title, icon)
+		icon = "rbxassetid://" .. tostring(icon)
 		local button = utility:Create("TextButton", {
 			Name = title,
 			Parent = library.pagesContainer,
@@ -373,10 +374,10 @@ do
 				Position = UDim2.new(0, 12, 0.5, 0),
 				Size = UDim2.new(0, 16, 0, 16),
 				ZIndex = 3,
-				Image =  "rbxassetid://5012544693" or "rbxassetid://" .. tostring(icon),
+				Image =  "rbxassetid://5012544693" or icon,
 				ImageColor3 = themes.TextColor,
 				ImageTransparency = 0.64
-			}) or {}
+			})
 		})
 
 		local container = utility:Create("ScrollingFrame", {
