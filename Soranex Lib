@@ -21,6 +21,7 @@ local themes = {
 	DarkContrast = Color3.fromRGB(14, 14, 14),  
 	TextColor = Color3.fromRGB(255, 255, 255)
 }
+local UISize = UDim2.new(0,800,0,450);
 
 do
 	function utility:Create(instance, properties, children)
@@ -320,13 +321,13 @@ do
 				if y-pos.Y >= 400 then
 					container.Main.Size = UDim2.new(0,size.X,0,y-pos.Y)
 				end
+				UISize = UDim2.new(0, container.Main.AbsoluteSize.X, 0, container.Main.AbsoluteSize.Y);
 				utility:Wait()
 			end
 		end)
 		
 		container.Main.ResizeWindow.MouseButton1Up:Connect(function()
 			draggingResize = false;
-
 		end)
 		
 		return setmetatable({
@@ -510,7 +511,7 @@ do
 
 		if self.position then
 			utility:Tween(container, {
-				Size = UDim2.new(0, 800, 0, 450),
+				Size = UISize,
 				Position = self.position
 			}, 0.2)
 			wait(0.2)
@@ -528,7 +529,7 @@ do
 			wait(0.2)
 
 			utility:Tween(container, {
-				Size = UDim2.new(0, 800, 0, 0),
+				Size = UDim2.new(0, container.AbsoluteSize.X, 0, 0),
 				Position = self.position + UDim2.new(0, 0, 0, 428)
 			}, 0.2)
 			wait(0.2)
