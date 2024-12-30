@@ -16,7 +16,7 @@ local CodesList = {
 			codeType = "Winter",
 			amount = 7500
 		},
-    ["DataShutdown"] = {
+    		["DataShutdown"] = {
 			codeType = "Universal",
 			amount = 10000
 		},
